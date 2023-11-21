@@ -50,12 +50,30 @@ SELECT
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 GROUP BY
-1- Contare quante software house ci sono per ogni paese (3)
-2- Contare quante recensioni ha ricevuto ogni videogioco (del videogioco vogliamo solo l'ID) (500)
-3- Contare quanti videogiochi hanno ciascuna classificazione PEGI (della classificazione PEGI vogliamo solo l'ID) (13)
-4- Mostrare il numero di videogiochi rilasciati ogni anno (11)
-5- Contare quanti videogiochi sono disponbiili per ciascun device (del device vogliamo solo l'ID) (7)
-6- Ordinare i videogame in base alla media delle recensioni (del videogioco vogliamo solo l'ID) (500)
+-- 1- Contare quante software house ci sono per ogni paese (3)
+
+    SELECT COUNT(*) FROM `software_houses` GROUP BY `country`;
+
+-- 2- Contare quante recensioni ha ricevuto ogni videogioco (del videogioco vogliamo solo l'ID) (500)
+
+    SELECT COUNT(*) FROM `reviews` GROUP BY `videogame_id`;
+
+-- 3- Contare quanti videogiochi hanno ciascuna classificazione PEGI (della classificazione PEGI vogliamo solo l'ID) (13)
+
+    SELECT `pegi_label_id`, COUNT(*) as n_videogames FROM `pegi_label_videogame` GROUP BY `pegi_label_id`;
+
+-- 4- Mostrare il numero di videogiochi rilasciati ogni anno (11)
+
+    SELECT YEAR(`release_date`) AS anno, COUNT(*) AS n_videogames FROM `videogames` GROUP BY YEAR(`release_date`);
+
+-- 5- Contare quanti videogiochi sono disponbiili per ciascun device (del device vogliamo solo l'ID) (7)
+
+    SELECT `device_id`, COUNT(*) AS n_videogames FROM `device_videogame` GROUP BY `device_id`;
+
+-- 6- Ordinare i videogame in base alla media delle recensioni (del videogioco vogliamo solo l'ID) (500)
+
+    SELECT videogame_id, AVG(rating) AS media_recensioni FROM reviews GROUP BY videogame_id ORDER BY media_recensioni;
+
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 JOIN
 1- Selezionare i dati di tutti giocatori che hanno scritto almeno una recensione, mostrandoli una sola volta (996)
@@ -66,7 +84,7 @@ JOIN
 6- Selezionare categorie e classificazioni PEGI dei videogiochi che hanno ricevuto recensioni da 4 e 5 stelle, mostrandole una sola volta (3363)
 7- Selezionare quali giochi erano presenti nei tornei nei quali hanno partecipato i giocatori il cui nome inizia per 'S' (474)
 8- Selezionare le città in cui è stato giocato il gioco dell'anno del 2018 (36)
-9- Selezionare i giocatori che hanno giocato al gioco più atteso del 2018 in un torneo del 2019 (3306)
+9- Selezionare i giocatori che hanno giocato al gioco più atteso del 2018 in un torneo del 2019 (3306)(DISTINCT)
 *********** BONUS ***********
 10- Selezionare i dati della prima software house che ha rilasciato un gioco, assieme ai dati del gioco stesso (software house id : 5)
 11- Selezionare i dati del videogame (id, name, release_date, totale recensioni) con più recensioni (videogame id : potrebbe uscire 449 o 398, sono entrambi a 20)
